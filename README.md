@@ -1,3 +1,3 @@
 # WordCounter
 
-![Design](link-to-image)
+![Design](https://github.com/omerbaki/WordCounter/blob/master/design.png)
