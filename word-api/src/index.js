@@ -2,14 +2,13 @@ import cors from 'cors';
 import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
-import fs from 'fs';
-import path from 'path';
 import uuid from 'uuid';
+
+import queueWriter from '../../queues-emulator/queueWriter';
 
 dotenv.config();
 
-const QUEUE_PATH = '../queues/' + process.env.REQUEST_PROCESS_QUEUE;
-initQueue();
+queueWriter.initQueue(process.env.REQUEST_PROCESS_QUEUE);
 
 const app = express();
 app.use(cors());
@@ -27,22 +26,15 @@ app.post('/word-counter', async (req, res) => {
     }
 
     const requestMessageName = uuid() + ".json";
-    await fs.writeFile(path.join(QUEUE_PATH, requestMessageName), JSON.stringify(req.body), (error) => {
+    await queueWriter.writeMessage(process.env.REQUEST_PROCESS_QUEUE, requestMessageName, JSON.stringify(req.body), (error) => {
         if(error) {
-            return res.status(500).send("Server failed to process request")
+            res.status(500).send("Server failed to process request")
         } else {
-            return res.status(200);
+            res.sendStatus(200);
         }
-    });
+    })
 });
 
 app.listen(process.env.PORT, () =>
     console.log(`WordApi listening on port ${process.env.PORT}!`),
 );
-
-function initQueue() {
-    if (!fs.existsSync(QUEUE_PATH)) {
-        console.log("Create queue - " + process.env.REQUEST_PROCESS_QUEUEc);
-        fs.mkdirSync(QUEUE_PATH);
-    }
-}

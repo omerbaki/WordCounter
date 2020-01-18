@@ -105,3 +105,4 @@ dist
 word-api/.DS_Store
 word-api/src/.DS_Store
 .DS_Store
+queues-emulator/queues/request-process-queue/
