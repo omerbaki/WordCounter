@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import uuid from 'uuid';
 import queueReader from '../../queues-emulator/queueReader';
 import queueWriter from '../../queues-emulator/queueWriter';
-import {handleSimpleText} from './message-handlers/simpleTextHandler';
+import {handleSimpleText, handleTextFromRemoteFile, handleTextFromApi} from './requestProcessor';
 
 dotenv.config();
 
@@ -17,8 +17,8 @@ const processMessage = async (data) => {
     if(request.hasOwnProperty('value')) {
         await handleSimpleText(request.value);
     } else if(request.hasOwnProperty('file')){
-
+        await handleTextFromRemoteFile(request.file);
     } else if(request.hasOwnProperty('url')){
-
+        await handleTextFromApi(request.url);
     }
 }
