@@ -8,7 +8,7 @@ import queueWriter from '../../queues-emulator/queueWriter';
 
 dotenv.config();
 
-queueWriter.initQueue(process.env.REQUEST_PROCESS_QUEUE);
+queueWriter.initQueue(process.env.WORD_COUNT_REQUEST_QUEUE);
 
 const app = express();
 app.use(cors());
@@ -22,17 +22,16 @@ app.post('/word-counter', async (req, res) => {
     if (!req.body.hasOwnProperty('value') &&
         !req.body.hasOwnProperty('file') &&
         !req.body.hasOwnProperty('url')) {
-            return res.status(400).send("Body should contain any of the following properties: value, file, url")
+            return res.status(400).send("Body should contain one of the following properties: value, file, url")
     }
 
     const requestMessageName = uuid() + ".json";
-    await queueWriter.writeMessage(process.env.REQUEST_PROCESS_QUEUE, requestMessageName, JSON.stringify(req.body), (error) => {
-        if(error) {
-            res.status(500).send("Server failed to process request")
-        } else {
-            res.sendStatus(200);
-        }
-    })
+    try {
+        await queueWriter.writeMessage(process.env.WORD_COUNT_REQUEST_QUEUE, requestMessageName, JSON.stringify(req.body));
+        res.sendStatus(200);
+    } catch(error) {
+        res.status(500).send("Server failed to process request")
+    }
 });
 
 app.listen(process.env.PORT, () =>

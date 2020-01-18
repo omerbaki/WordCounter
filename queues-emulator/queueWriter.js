@@ -1,4 +1,5 @@
 const fs = require('fs');
+const fsp = require('fs').promises;
 const path = require('path');
 
 const queuesLocation =  __dirname + '/queues';
@@ -11,9 +12,9 @@ const initQueue =  (queueName) => {
     }
 }
 
-const writeMessage = async (queueName, messageName, messageStr, callback) => {
+const writeMessage = async (queueName, messageName, messageStr) => {
     const messageFullPath = path.join(queuesLocation, queueName, messageName);
-    await fs.writeFile(messageFullPath, messageStr, 'utf8', callback);
+    await fsp.writeFile(messageFullPath, messageStr, 'utf8');
 }
 
 module.exports = {
