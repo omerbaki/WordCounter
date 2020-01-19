@@ -16,7 +16,7 @@ const readMessagesFromQueue = async (queueName, processCallback) => {
             await processCallback(data);
             await fsp.unlink(fileFullPath);
         } catch(error) {
-            console.log("Failed to process message - " + file);
+            console.log(`Failed to process message ${file} - ${error}`);
         }
     });
 }

@@ -4,43 +4,32 @@ import uuid from 'uuid';
 import queueWriter from '../../queues-emulator/queueWriter';
 
 export const handleSimpleText = async (text) => {
-    const requestMessageName = uuid() + ".txt";
-    await queueWriter.writeMessage(process.env.WORD_COUNT_JOB_QUEUE, requestMessageName, text);
+    await queueWriter.writeMessage(process.env.WORD_COUNT_JOB_QUEUE, text);
 }
 
-export const handleTextFromRemoteFile = async (filePath) => {
-    console.log("filePath - " + filePath);
-
-    try {
-        var req = https.request(filePath, function(res) {
-            //res.setEncoding('binary');
-            var data = [];
-            res.on('data', function(chunk) {
-                console.log("chunk - " + chunk);
-                // data.push(chunk);
+export const handleTextFromUrl = async (urlPath) => {
+    // TODO: be able to retry process file if failed in the middle of stream
+    console.log("Start processing file - " + urlPath);
+    return new Promise((resolve, reject) => {
+        const req = https.request(urlPath, (res) => {
+            res.on('data', async (chunk) => {
+                try {
+                    await queueWriter.writeMessage(process.env.WORD_COUNT_JOB_QUEUE, chunk);
+                } catch (error) {
+                    reject(error);
+                }
             });
-    
-            res.on('end', function() {
-                console.log("FINISH");
-                //fs.appendFileSync(fileName, data);
 
-                // var binary = Buffer.concat(data);
-                // var writeStream = fs.createWriteStream(fileName, { "flags": 'a' });
-                // writeStream.write(binary);
-                // writeStream.end();
-            });
-    
-            res.on('error', function(err){
-                console.log("Error during HTTP request");
-                console.log(err.message);
+            res.on('end', () => {
+                console.log("Finished processing file");
+                resolve();
             });
         });
+
+        req.on('error', (err) => {
+            reject(err);
+        });
+
         req.end();
-    } catch (error) {
-        console.log("ERROR - " + error);
-    }
-}
-
-export const handleTextFromApi = async (url) => {
-
+    });
 }

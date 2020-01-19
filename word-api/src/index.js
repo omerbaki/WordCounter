@@ -25,11 +25,11 @@ app.post('/word-counter', async (req, res) => {
             return res.status(400).send("Body should contain one of the following properties: value, file, url")
     }
 
-    const requestMessageName = uuid() + ".json";
     try {
-        await queueWriter.writeMessage(process.env.WORD_COUNT_REQUEST_QUEUE, requestMessageName, JSON.stringify(req.body));
+        await queueWriter.writeMessage(process.env.WORD_COUNT_REQUEST_QUEUE, JSON.stringify(req.body));
         res.sendStatus(200);
     } catch(error) {
+        console.log("Failed to process request - " + error);
         res.status(500).send("Server failed to process request")
     }
 });
