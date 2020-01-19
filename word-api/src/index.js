@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import uuid from 'uuid';
 
+import db from '../../document-db-emulator/db';
 import queueWriter from '../../queues-emulator/queueWriter';
 
 dotenv.config();
@@ -15,7 +16,11 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.get('/word-stats', async (req, res) => {
-    res.sendStatus(200);
+    let dbData = JSON.parse(await db.read());
+    const word = req.query.word;
+    const wordCount = dbData.hasOwnProperty(word)? dbData[word] : 0;
+
+    res.status(200).send(wordCount.toString());
 });
 
 app.post('/word-counter', async (req, res) => {

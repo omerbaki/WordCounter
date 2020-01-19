@@ -1,10 +1,12 @@
 import dotenv from 'dotenv';
 import queueReader from '../../queues-emulator/queueReader';
+import db from '../../document-db-emulator/db';
 
 dotenv.config();
 
 const reduce = async () => {
-    let finalCount = {}; // READ FROM DB
+    console.log("start word count reducer");
+    let finalCount = JSON.parse(await db.read());
     await queueReader.readMessagesFromQueue(process.env.COUNTED_WORDS_QUEUE, async (countedWordsStr) => {
         if (!countedWordsStr) return;
 
@@ -13,11 +15,10 @@ const reduce = async () => {
             prev[nxt] = (prev[nxt] + countedWords[nxt]) || countedWords[nxt];
             return prev;
         }, finalCount);
-
-        console.log("mid finalCount - " + JSON.stringify(finalCount));
     });
 
-    console.log("finalCount - " + JSON.stringify(finalCount));
+    db.write(JSON.stringify(finalCount));
+    console.log("Updated word count in DB");
 }
 
 (async () => await reduce())();
