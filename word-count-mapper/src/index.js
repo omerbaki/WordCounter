@@ -12,9 +12,11 @@ queueReader.readMessagesFromQueue(process.env.TXT_TO_COUNT_QUEUE, async (data) =
 const countWords = async (txt) => {
     if(!txt) return;
 
-    const words = txt.split(" ");
+    var words = txt.toLowerCase().split(/[ .:;?!~,`"'&|()<>{}\[\]\r\n/\\]+/);
     const wordsCount = words.reduce((prev, nxt) => {
-        prev[nxt] = (prev[nxt] + 1) || 1;
+        if(nxt && nxt.length >= 2){
+            prev[nxt] = (prev[nxt] + 1) || 1;
+        }
         return prev;
       }, {});
 
