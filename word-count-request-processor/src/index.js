@@ -6,7 +6,7 @@ import {handleSimpleText, handleTextFromUrl} from './requestProcessor';
 
 dotenv.config();
 
-queueWriter.initQueue(process.env.WORD_COUNT_JOB_QUEUE);
+queueWriter.initQueue(process.env.TXT_TO_COUNT_QUEUE);
 
 queueReader.readMessagesFromQueue(process.env.WORD_COUNT_REQUEST_QUEUE, async (data) => await processMessage(data));
 

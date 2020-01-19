@@ -9,17 +9,9 @@
     "build": "npm run clean && npx babel src --out-dir build",
     "start": "node build/index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Soluto-Private/email-to-session.git"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Soluto-Private/email-to-session/issues"
-  },
-  "homepage": "https://github.com/Soluto-Private/email-to-session#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",

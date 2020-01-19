@@ -4,7 +4,7 @@ import uuid from 'uuid';
 import queueWriter from '../../queues-emulator/queueWriter';
 
 export const handleSimpleText = async (text) => {
-    await queueWriter.writeMessage(process.env.WORD_COUNT_JOB_QUEUE, text);
+    await queueWriter.writeMessage(process.env.TXT_TO_COUNT_QUEUE, text);
 }
 
 export const handleTextFromUrl = async (urlPath) => {
@@ -14,7 +14,7 @@ export const handleTextFromUrl = async (urlPath) => {
         const req = https.request(urlPath, (res) => {
             res.on('data', async (chunk) => {
                 try {
-                    await queueWriter.writeMessage(process.env.WORD_COUNT_JOB_QUEUE, chunk);
+                    await queueWriter.writeMessage(process.env.TXT_TO_COUNT_QUEUE, chunk);
                 } catch (error) {
                     reject(error);
                 }

@@ -106,4 +106,5 @@ word-api/.DS_Store
 word-api/src/.DS_Store
 .DS_Store
 queues-emulator/queues/word-count-request-queue/
-queues-emulator/queues/word-count-job-queue/
+queues-emulator/queues/txt-to-count-queue/
+queues-emulator/queues/counted-words-queue/
