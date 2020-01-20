@@ -22,7 +22,7 @@ console.log("Start word-count-request-processor");
 
 _queueWriter["default"].initQueue(process.env.TXT_TO_COUNT_QUEUE);
 
-_queueReader["default"].readMessagesFromQueue(process.env.WORD_COUNT_REQUEST_QUEUE,
+_queueReader["default"].registerToQueue(process.env.WORD_COUNT_REQUEST_QUEUE,
 /*#__PURE__*/
 function () {
   var _ref = _asyncToGenerator(

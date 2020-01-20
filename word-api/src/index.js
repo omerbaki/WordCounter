@@ -2,7 +2,6 @@ import cors from 'cors';
 import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
-import uuid from 'uuid';
 import 'regenerator-runtime/runtime';
 
 import db from '../../document-db-emulator/db';

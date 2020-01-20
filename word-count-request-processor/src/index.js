@@ -10,7 +10,7 @@ console.log("Start word-count-request-processor");
 
 queueWriter.initQueue(process.env.TXT_TO_COUNT_QUEUE);
 
-queueReader.readMessagesFromQueue(process.env.WORD_COUNT_REQUEST_QUEUE, async (data) => await processMessage(data));
+queueReader.registerToQueue(process.env.WORD_COUNT_REQUEST_QUEUE, async (data) => await processMessage(data));
 
 const processMessage = async (data) => {
     console.log("Processing message - " + data);

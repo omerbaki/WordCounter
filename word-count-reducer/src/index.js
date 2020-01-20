@@ -8,7 +8,7 @@ dotenv.config();
 const reduce = async () => {
     console.log("start word count reducer");
     let finalCount = JSON.parse(await db.read());
-    await queueReader.readMessagesFromQueue(process.env.COUNTED_WORDS_QUEUE, async (countedWordsStr) => {
+    await queueReader.registerToQueue(process.env.COUNTED_WORDS_QUEUE, async (countedWordsStr) => {
         if (!countedWordsStr) return;
 
         const countedWords = JSON.parse(countedWordsStr);
