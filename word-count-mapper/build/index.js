@@ -22,7 +22,7 @@ console.log("Start word-count-mapper");
 
 _queueWriter["default"].initQueue(process.env.COUNTED_WORDS_QUEUE);
 
-_queueReader["default"].readMessagesFromQueue(process.env.TXT_TO_COUNT_QUEUE,
+_queueReader["default"].registerToQueue(process.env.TXT_TO_COUNT_QUEUE,
 /*#__PURE__*/
 function () {
   var _ref = _asyncToGenerator(
