@@ -1,0 +1,13 @@
+{
+  "name": "word-counter-exercise",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "run-all": "(cd word-count-request-processor && yarn start) && (cd word-count-mapper && yarn start)"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "regenerator-runtime": "^0.13.3"
+  }
+}

@@ -1,6 +1,7 @@
 import fs from 'fs';
 import https from 'https';
 import uuid from 'uuid';
+import "regenerator-runtime/runtime";
 import queueWriter from '../../queues-emulator/queueWriter';
 
 export const handleSimpleText = async (text) => {

@@ -6,6 +6,8 @@ import {handleSimpleText, handleTextFromUrl} from './requestProcessor';
 
 dotenv.config();
 
+console.log("Start word-count-request-processor");
+
 queueWriter.initQueue(process.env.TXT_TO_COUNT_QUEUE);
 
 queueReader.readMessagesFromQueue(process.env.WORD_COUNT_REQUEST_QUEUE, async (data) => await processMessage(data));

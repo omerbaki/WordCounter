@@ -1,9 +1,12 @@
 import dotenv from 'dotenv';
 import uuid from 'uuid';
+import 'regenerator-runtime/runtime';
 import queueReader from '../../queues-emulator/queueReader';
 import queueWriter from '../../queues-emulator/queueWriter';
 
 dotenv.config();
+
+console.log("Start word-count-mapper");
 
 queueWriter.initQueue(process.env.COUNTED_WORDS_QUEUE);
 
