@@ -1,6 +1,7 @@
 const fs = require('fs');
 const fsp = require('fs').promises;
 const path = require('path');
+const uuid = require('uuid');
 
 const queuesLocation =  __dirname + '/queues';
 
@@ -13,7 +14,7 @@ const initQueue =  (queueName) => {
 }
 
 const writeMessage = async (queueName, messageStr) => {
-    const messageName = Date.now() + ".txt";
+    const messageName = uuid() + ".txt";
     const messageFullPath = path.join(queuesLocation, queueName, messageName);
     await fsp.writeFile(messageFullPath, messageStr, 'utf8');
 }
