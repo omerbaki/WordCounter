@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import 'regenerator-runtime/runtime';
 import queueReader from '../../queues-emulator/queueReader';
 import db from '../../document-db-emulator/db';
 
