@@ -16,13 +16,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 _dotenv["default"].config();
 
-var reduce =
+var reduceAndUpdateDb =
 /*#__PURE__*/
 function () {
   var _ref = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee2() {
-    var finalCount;
+    var finalCount, dirtyFlag;
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
@@ -35,7 +35,8 @@ function () {
           case 4:
             _context2.t1 = _context2.sent;
             finalCount = _context2.t0.parse.call(_context2.t0, _context2.t1);
-            _context2.next = 8;
+            dirtyFlag = false;
+            _context2.next = 9;
             return _queueReader["default"].readMessagesFromQueue(process.env.COUNTED_WORDS_QUEUE,
             /*#__PURE__*/
             function () {
@@ -55,13 +56,14 @@ function () {
                         return _context.abrupt("return");
 
                       case 2:
+                        dirtyFlag = true;
                         countedWords = JSON.parse(countedWordsStr);
                         Object.keys(countedWords).reduce(function (prev, nxt) {
                           prev[nxt] = prev[nxt] + countedWords[nxt] || countedWords[nxt];
                           return prev;
                         }, finalCount);
 
-                      case 4:
+                      case 5:
                       case "end":
                         return _context.stop();
                     }
@@ -74,10 +76,12 @@ function () {
               };
             }());
 
-          case 8:
-            _db["default"].write(JSON.stringify(finalCount));
+          case 9:
+            if (dirtyFlag) {
+              _db["default"].write(JSON.stringify(finalCount));
 
-            console.log("Updated word count in DB");
+              console.log("Updated word count in DB");
+            }
 
           case 10:
           case "end":
@@ -87,11 +91,13 @@ function () {
     }, _callee2);
   }));
 
-  return function reduce() {
+  return function reduceAndUpdateDb() {
     return _ref.apply(this, arguments);
   };
 }();
 
+setInterval(
+/*#__PURE__*/
 _asyncToGenerator(
 /*#__PURE__*/
 regeneratorRuntime.mark(function _callee3() {
@@ -100,7 +106,7 @@ regeneratorRuntime.mark(function _callee3() {
       switch (_context3.prev = _context3.next) {
         case 0:
           _context3.next = 2;
-          return reduce();
+          return reduceAndUpdateDb();
 
         case 2:
           return _context3.abrupt("return", _context3.sent);
@@ -111,4 +117,4 @@ regeneratorRuntime.mark(function _callee3() {
       }
     }
   }, _callee3);
-}))();
+})), 10000);

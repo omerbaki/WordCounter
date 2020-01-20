@@ -8,8 +8,6 @@ var _bodyParser = _interopRequireDefault(require("body-parser"));
 
 var _dotenv = _interopRequireDefault(require("dotenv"));
 
-var _uuid = _interopRequireDefault(require("uuid"));
-
 require("regenerator-runtime/runtime");
 
 var _db = _interopRequireDefault(require("../../document-db-emulator/db"));

@@ -7,11 +7,12 @@
     "run-request-processor": "cd word-count-request-processor && yarn build && yarn start",
     "run-mapper": "cd word-count-mapper && yarn build && yarn start",
     "run-reducer": "cd word-count-reducer && yarn build && yarn start",
-    "run-all": "yarn run-api && yarn run-request-processor && yarn run-mapper && yarn run-reducer"
+    "run-all": "yarn run-api & yarn run-request-processor & yarn run-mapper & yarn run-reducer"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chokidar": "^3.3.1",
     "regenerator-runtime": "^0.13.3",
     "uuid": "^3.4.0"
   }
